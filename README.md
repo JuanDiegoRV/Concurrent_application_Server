@@ -55,6 +55,20 @@ docker stop concurrent-server
 docker logs concurrent-server
 ```
 
+## Evidencia local
+
+El contenedor se ejecuta en Docker Desktop.
+
+![Contenedor en Docker Desktop](docs/evidence/01-docker-desktop-container.jpeg)
+
+El comando `docker ps` muestra el contenedor y el puerto publicado.
+
+![Resultado de docker ps](docs/evidence/02-docker-ps.png)
+
+La aplicación responde desde el navegador.
+
+![Respuesta local](docs/evidence/03-local-greeting.png)
+
 ## Despliegue en EC2
 
 En una instancia Amazon Linux 2023 con Docker instalado:
