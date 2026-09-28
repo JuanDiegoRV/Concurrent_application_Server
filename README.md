@@ -1,15 +1,15 @@
 # Concurrent Application Server
 
-Implementación del framework propio para el **Repositorio 2** del taller de virtualización. No usa Spring ni dependencias de frameworks web. `MiniHttpServer` es el framework: registra rutas GET mediante una API fluida y delega cada solicitud a un handler.
+Este es el repositorio 2 del taller de virtualización. No usa Spring. El proyecto tiene un framework web pequeño llamado `MiniHttpServer`.
 
 ## Estado actual
 
-- `MiniHttpServer` registra rutas con `get(path, handler)` y entrega datos de consulta a través de `Request`.
-- Atiende solicitudes concurrentes mediante un executor de *virtual threads* de Java 21: cada solicitud puede ejecutarse independientemente sin bloquear el hilo principal del servidor.
-- Expone `GET /greeting?name=<nombre>` y `GET /health`.
-- Lee el puerto de la variable de entorno `PORT`; el valor por defecto es `6000`.
-- Ejecuta un apagado ordenado al recibir `SIGTERM`/`Ctrl+C`: deja terminar solicitudes en curso hasta 10 segundos y después cierra el executor.
-- Se empaqueta y ejecuta en una imagen Docker basada en Amazon Corretto 21.
+- El framework registra rutas GET con `get(path, handler)`.
+- Atiende varias solicitudes al mismo tiempo con Java 21.
+- Expone `GET /greeting?name=<nombre>`.
+- Lee el puerto desde la variable de entorno `PORT`, si no existe usa el puerto `6000`.
+- Cuando recibe `SIGTERM` o `Ctrl+C`, espera hasta 10 segundos para terminar las solicitudes en curso y luego cierra el servidor.
+- Se puede ejecutar en Docker con Amazon Corretto 21.
 
 ## Requisitos
 
@@ -29,10 +29,9 @@ En otra terminal:
 
 ```powershell
 curl "http://localhost:6000/greeting?name=Pedro"
-curl "http://localhost:6000/health"
 ```
 
-Respuesta esperada: `Hello, Pedro!` y `UP`.
+Respuesta esperada: `Hello, Pedro!`.
 
 Para usar otro puerto:
 
@@ -49,7 +48,7 @@ docker run -d --name concurrent-server -e PORT=6000 -p 34000:6000 <dockerhub-use
 curl "http://localhost:34000/greeting?name=Container"
 ```
 
-Para detener el contenedor ordenadamente, Docker envía `SIGTERM`; el *shutdown hook* registra el cierre y da un periodo de gracia de 10 segundos:
+Para detener el contenedor, Docker envía `SIGTERM`. El servidor deja terminar las solicitudes que estén activas.
 
 ```powershell
 docker stop concurrent-server
@@ -75,4 +74,4 @@ http://<ec2-public-dns>:8080/greeting?name=AWS
 
 ## Evidencia de progreso
 
-El commit de esta extensión debe registrar la incorporación del manejo concurrente, la configuración `PORT`, el apagado ordenado y Docker. Tras publicar el repositorio, agregue aquí el hash y enlace del commit, además de capturas o video de Docker y EC2.
+El commit `ddf4e88` agrega concurrencia, `PORT`, apagado ordenado y Docker. Cuando el repositorio esté en GitHub, agregue aquí el enlace al commit y las capturas de Docker y EC2.

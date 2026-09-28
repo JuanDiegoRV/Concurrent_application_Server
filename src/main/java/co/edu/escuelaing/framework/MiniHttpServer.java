@@ -12,10 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Small framework server with a route registry, virtual-thread concurrency and
- * graceful shutdown. It deliberately has no Spring dependency.
- */
+/** Small web server without Spring. */
 public final class MiniHttpServer {
     private static final Duration SHUTDOWN_GRACE_PERIOD = Duration.ofSeconds(10);
 

@@ -4,7 +4,7 @@ import java.net.URLDecoder;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
-/** Immutable request data exposed to application route handlers. */
+/** Request data for a route. */
 public record Request(URI uri) {
     public String query(String name, String defaultValue) {
         String rawQuery = uri.getRawQuery();
